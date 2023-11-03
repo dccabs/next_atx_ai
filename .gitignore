@@ -27,6 +27,14 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+
+# webstorm
+.idea*
+
+# yarn
+yarn*
+.yarn/*
 
 # vercel
 .vercel

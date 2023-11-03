@@ -16,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">{children}</div>
+      </body>
     </html>
   )
 }
