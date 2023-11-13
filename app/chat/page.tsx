@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import BasicChat from './components/BasicChat'
 import Tabs from '@/app/components/ui/Tabs'
+import Link from 'next/link'
 
 export default function Chat() {
   const [tabs, setTabs] = useState([
@@ -21,14 +22,6 @@ export default function Chat() {
         handleTabSelect('open-ai-demo')
       }
     }
-    // {
-    //   id: 'replicate-demo',
-    //   name: 'Replicate Demo',
-    //   current: false,
-    //   onClick: () => {
-    //     handleTabSelect('replicate-demo')
-    //   }
-    // }
   ])
 
   const handleTabSelect = (id) => {
@@ -41,8 +34,6 @@ export default function Chat() {
   }
 
   const activeTab = tabs.find((tab) => tab.current)
-
-  console.log('activeTab', activeTab)
 
   return (
     <div className='bg-white py-24 sm:py-32'>
@@ -66,6 +57,20 @@ export default function Chat() {
           <>
             <div className='max-w-7xl'>
               <div className='space-y-4'>
+                <p>
+                  Creating a basic chat with streaming responses is really easy
+                  using the Vercel AI SDK.
+                </p>
+                <p>
+                  <Link
+                    className='text-cyan-600 underline'
+                    target='_blank'
+                    href='https://vercel.com/docs/functions/streaming'
+                  >
+                    Why do you want to use streaming data?
+                  </Link>
+                </p>
+
                 <h5 className='text-bold text-2xl'>
                   First we're going to create a new React Component called
                   BasicChat.tsx
@@ -141,12 +146,10 @@ export default function BasicChat() {
                   Next: Create an edge function
                 </h5>
                 <ul className='list-disc space-y-4 ml-16'>
+                  <li>Create a .ts edge function in your api directory</li>
                   <li>
-                    Create a .ts edge function in your api directory
-                  </li>
-                  <li>
-                    We will use this function to stream the data from the
-                    OpenAI API.
+                    We will use this function to stream the data from the OpenAI
+                    API.
                   </li>
                 </ul>
                 <div className='max-w-7xl'>

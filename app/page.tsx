@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const Links = [
   { href: '/chat', label: 'Basic Chat Example' },
-  { href: '/chat', label: 'Open AI Functions Example' },
+  { href: '/function_calling', label: 'Open AI Functions Example' },
   { href: '/chat', label: 'Basic Langchain Chat Example' },
   { href: '/chat', label: 'Lanchain Retrieval Example' },
   { href: '/chat', label: 'Serp (Search Engine API) Example' },
