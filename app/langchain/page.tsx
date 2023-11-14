@@ -59,13 +59,14 @@ export default function Chat() {
         <div className='max-w-7xl'>
           <div className='mx-auto lg:mx-0 space-y-4'>
             <h2 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
-              Basic Langchain Example
+              Langchain Examples
             </h2>
             <div className='space-y-4'>
               <p>
-                The vercel AI makes it simple to re-create a basic chat GPT
-                clone using the{' '}
-                <span className='text-cyan-600'>Vercel AI SDK</span>
+                Langchain is a software library designed to facilitate the
+                creation of applications that utilize large language models
+                (LLMs) like OpenAI's GPT models, Antropic Models, and Replicate
+                Models.
               </p>
             </div>
           </div>
@@ -76,132 +77,165 @@ export default function Chat() {
             <div className='max-w-7xl'>
               <div className='space-y-4'>
                 <p>
-                  Creating a basic chat with streaming responses is really easy
-                  using the Vercel AI SDK.
+                  We can continue to use the useChat hook provided by the Vercel
+                  AI SDK to create a chat component that
                 </p>
                 <p>
-                  <Link
-                    className='text-cyan-600 underline'
-                    target='_blank'
-                    href='https://vercel.com/docs/functions/streaming'
-                  >
-                    Why do you want to use streaming data?
-                  </Link>
+                  In our edge/serverless functions will use langchain to invoke
+                  our LLM's instead of directly invoking the Vercel AI
+                  OpenAIChat component.
                 </p>
+                <p>
+                  This can make it easier for switching between models for
+                  different tasks. For example, you may not need the power of
+                  Open AI's GPT-4 for everything. You might be able to use a
+                  cheaper model like GPT 3.5, Anthropic, or Replicate
+                </p>
+                <div className='space-y-8 py-8'>
+                  <div>
+                    <h5 className='text-bold text-2xl'>Open AI Example</h5>
+                    <div className='max-w-7xl'>
+                      <div className='prose prose-slate max-w-7xl'>
+                        <pre>
+                          <code className='language-js'>
+                            {`
+import { StreamingTextResponse, LangChainStream, Message } from 'ai'
+import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { AIMessage, HumanMessage } from 'langchain/schema'
 
-                <h5 className='text-bold text-2xl'>
-                  First we're going to create a new React Component called
-                  BasicChat.tsx
-                </h5>
-                <p>In this component we'll want to do a couple of things</p>
-                <ul className='list-disc space-y-4 ml-16'>
-                  <li>
-                    Use "use client" as this will need to be a client rendered
-                    component. We'll be streaming data directly from the OpenAI
-                    Api
-                  </li>
-                  <li>
-                    We'll be using the useChat hook provided by the Vercel AI
-                    SDK which gives us some nice out of the box functionality
-                  </li>
-                </ul>
-                <div className='max-w-7xl'>
-                  <div className='prose prose-slate max-w-7xl'>
-                    <pre>
-                      <code className='language-js'>
-                        {`'use client'
-import { useChat } from 'ai/react'
-
-export default function BasicChat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    // This will default to ./api/chat - but you can point it elsewhere
-    // api: './api/chat'
-  })
-  return (
-    <div className='flex flex-col w-full max-w-7xl mx-auto stretch space-y-4'>
-      {messages.length > 0
-        ? messages.map((m) => (
-          <div key='{m.id}' className='whitespace-pre-wrap'>
-            <div>
-              {m.role === 'user' ? (
-                <div className='p-2 bg-rose-200 text-gray-900 font-semibold rounded mb-4'>
-                  User
-                </div>
-              ) : (
-                <div className='p-2 bg-emerald-200 text-gray-900 font-semibold rounded mb-4'>
-                  AI
-                </div>
-              )}
-            </div>
-            <div className='px-8 text-gray-900 font-semibold'>
-              {m.content}
-            </div>
-          </div>
-        ))
-        : null}
-
-      <form onSubmit='{handleSubmit}'>
-        <input
-          className='w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl'
-          value='{input}'
-          placeholder='Say something...'
-          onChange='{handleInputChange}'
-        />
-      </form>
-    </div>
-  )
-}`}
-                      </code>
-                    </pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='max-w-7xl'>
-              <div className='space-y-4'>
-                <h5 className='text-bold text-2xl'>
-                  Next: Create an edge function
-                </h5>
-                <ul className='list-disc space-y-4 ml-16'>
-                  <li>Create a .ts edge function in your api directory</li>
-                  <li>
-                    We will use this function to stream the data from the OpenAI
-                    API.
-                  </li>
-                </ul>
-                <div className='max-w-7xl'>
-                  <div className='prose prose-slate max-w-7xl'>
-                    <pre>
-                      <code className='language-js'>
-                        {`import OpenAI from 'openai'
-import { OpenAIStream, StreamingTextResponse } from 'ai'
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
-})
-
-// IMPORTANT! Set the runtime to edge
 export const runtime = 'edge'
 
 export async function POST(req: Request) {
-  // Extract the \`prompt\` from the body of the request
   const { messages } = await req.json()
 
-  // Ask OpenAI for a streaming chat completion given the prompt
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    stream: true,
-    messages: messages
+  const { stream, handlers } = LangChainStream()
+
+  const llm = new ChatOpenAI({
+    streaming: true,
+    modelName: 'gpt-4'
   })
 
-  // Convert the response into a friendly text-stream
-  const stream = OpenAIStream(response)
-  // Respond with the stream
+  llm
+    .call(
+      (messages as Message[]).map(m =>
+        m.role == 'user'
+          ? new HumanMessage(m.content)
+          : new AIMessage(m.content)
+      ),
+      {},
+      [handlers]
+    )
+    .catch(console.error)
+
   return new StreamingTextResponse(stream)
-}`}
-                      </code>
-                    </pre>
+}
+`}
+                          </code>
+                        </pre>
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className='text-bold text-2xl mt-8 block'>
+                        Anthropic with AWS Bedrock Example
+                      </h5>
+                      <div className='max-w-7xl'>
+                        <div className='prose prose-slate max-w-7xl'>
+                          <pre>
+                            <code className='language-js'>
+                              {`
+import { StreamingTextResponse, LangChainStream, Message } from 'ai'
+import { BedrockChat } from 'langchain/chat_models/bedrock'
+import { AIMessage, HumanMessage } from 'langchain/schema'
+
+// We can't use edge for the Bedrock model because it's not supported
+// export const runtime = 'edge'
+
+export async function POST(req: Request) {
+  const { messages } = await req.json()
+  const { stream, handlers } = LangChainStream()
+
+  const llm = new BedrockChat({
+    streaming: true,
+    model: 'anthropic.claude-v2',
+    region: process.env.AWS_REGION,
+    // endpointUrl: 'custom.amazonaws.com',
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    }
+    // modelKwargs: {},
+  })
+
+  llm
+    .call(
+      (messages as Message[]).map(m =>
+        m.role == 'user'
+          ? new HumanMessage(m.content)
+          : new AIMessage(m.content)
+      ),
+      {},
+      [handlers]
+    )
+    .catch(console.error)
+
+  return new StreamingTextResponse(stream)
+}
+`}
+                            </code>
+                          </pre>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h5 className='text-bold text-2xl mt-8 block'>
+                        Replicate Example
+                      </h5>
+                      <div className='max-w-7xl'>
+                        <div className='prose prose-slate max-w-7xl'>
+                          <pre>
+                            <code className='language-js'>
+                              {`
+import { StreamingTextResponse, LangChainStream, Message } from 'ai'
+import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { AIMessage, HumanMessage } from 'langchain/schema'
+import { Replicate } from 'langchain/llms/replicate'
+import { NextResponse } from 'next/server'
+
+export const runtime = 'edge'
+
+export async function POST(req: Request) {
+  const { messages } = await req.json()
+  // Replicate via langchain doesn't currently support streaming
+  // const { stream, handlers } = LangChainStream()
+
+  // Replicate needs a string vs. an array of messages
+  let messageStr = ''
+  ;(messages as Message[]).map((m) => {
+    if (m.role == 'user') {
+      messageStr += \`User: \${m.content}\`
+    } else {
+      messageStr += \`Assistant: \${m.content}\`
+    }
+  })
+
+  const model = new Replicate({
+    model:
+      'a16z-infra/llama13b-v2-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5',
+  })
+
+  const prompt = messageStr
+
+  const res = await model.call(\`${prompt}
+  Assistant:\`)
+  return new StreamingTextResponse(res)
+}
+`}
+                            </code>
+                          </pre>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

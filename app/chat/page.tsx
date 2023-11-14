@@ -12,7 +12,7 @@ export default function Chat() {
       current: true,
       onClick: () => {
         handleTabSelect('instructions')
-      }
+      },
     },
     {
       id: 'open-ai-demo',
@@ -20,8 +20,8 @@ export default function Chat() {
       current: false,
       onClick: () => {
         handleTabSelect('open-ai-demo')
-      }
-    }
+      },
+    },
   ])
 
   const handleTabSelect = (id) => {
@@ -36,18 +36,18 @@ export default function Chat() {
   const activeTab = tabs.find((tab) => tab.current)
 
   return (
-    <div className='bg-white py-24 sm:py-32'>
-      <div className='mx-auto max-w-7xl px-6 lg:px-8 space-y-8'>
-        <div className='max-w-7xl'>
-          <div className='mx-auto lg:mx-0 space-y-4'>
-            <h2 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-8">
+        <div className="max-w-7xl">
+          <div className="mx-auto lg:mx-0 space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Basic Chat Example
             </h2>
-            <div className='space-y-4'>
+            <div className="space-y-4">
               <p>
                 The vercel AI makes it simple to re-create a basic chat GPT
                 clone using the{' '}
-                <span className='text-cyan-600'>Vercel AI SDK</span>
+                <span className="text-cyan-600">Vercel AI SDK</span>
               </p>
             </div>
           </div>
@@ -55,28 +55,28 @@ export default function Chat() {
         <Tabs tabs={tabs} />
         {activeTab.id === 'instructions' && (
           <>
-            <div className='max-w-7xl'>
-              <div className='space-y-4'>
+            <div className="max-w-7xl">
+              <div className="space-y-4">
                 <p>
                   Creating a basic chat with streaming responses is really easy
                   using the Vercel AI SDK.
                 </p>
                 <p>
                   <Link
-                    className='text-cyan-600 underline'
-                    target='_blank'
-                    href='https://vercel.com/docs/functions/streaming'
+                    className="text-cyan-600 underline"
+                    target="_blank"
+                    href="https://vercel.com/docs/functions/streaming"
                   >
                     Why do you want to use streaming data?
                   </Link>
                 </p>
 
-                <h5 className='text-bold text-2xl'>
+                <h5 className="text-bold text-2xl">
                   First we're going to create a new React Component called
                   BasicChat.tsx
                 </h5>
                 <p>In this component we'll want to do a couple of things</p>
-                <ul className='list-disc space-y-4 ml-16'>
+                <ul className="list-disc space-y-4 ml-16">
                   <li>
                     Use "use client" as this will need to be a client rendered
                     component. We'll be streaming data directly from the OpenAI
@@ -87,10 +87,10 @@ export default function Chat() {
                     SDK which gives us some nice out of the box functionality
                   </li>
                 </ul>
-                <div className='max-w-7xl'>
-                  <div className='prose prose-slate max-w-7xl'>
+                <div className="max-w-7xl">
+                  <div className="prose prose-slate max-w-7xl">
                     <pre>
-                      <code className='language-js'>
+                      <code className="language-js">
                         {`'use client'
 import { useChat } from 'ai/react'
 
@@ -140,22 +140,22 @@ export default function BasicChat() {
               </div>
             </div>
 
-            <div className='max-w-7xl'>
-              <div className='space-y-4'>
-                <h5 className='text-bold text-2xl'>
+            <div className="max-w-7xl">
+              <div className="space-y-4">
+                <h5 className="text-bold text-2xl">
                   Next: Create an edge function
                 </h5>
-                <ul className='list-disc space-y-4 ml-16'>
+                <ul className="list-disc space-y-4 ml-16">
                   <li>Create a .ts edge function in your api directory</li>
                   <li>
                     We will use this function to stream the data from the OpenAI
                     API.
                   </li>
                 </ul>
-                <div className='max-w-7xl'>
-                  <div className='prose prose-slate max-w-7xl'>
+                <div className="max-w-7xl">
+                  <div className="prose prose-slate max-w-7xl">
                     <pre>
-                      <code className='language-js'>
+                      <code className="language-js">
                         {`import OpenAI from 'openai'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 

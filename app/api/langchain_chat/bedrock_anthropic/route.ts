@@ -16,20 +16,20 @@ export async function POST(req: Request) {
     // endpointUrl: 'custom.amazonaws.com',
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-    }
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
     // modelKwargs: {},
   })
 
   llm
     .call(
-      (messages as Message[]).map(m =>
+      (messages as Message[]).map((m) =>
         m.role == 'user'
           ? new HumanMessage(m.content)
-          : new AIMessage(m.content)
+          : new AIMessage(m.content),
       ),
       {},
-      [handlers]
+      [handlers],
     )
     .catch(console.error)
 
