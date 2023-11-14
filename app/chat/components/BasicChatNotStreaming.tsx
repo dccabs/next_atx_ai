@@ -1,11 +1,12 @@
 'use client'
 import { useChat } from 'ai/react'
 
-export default function BasicChat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+export default function BasicChatNotStreaming() {
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     // This will default to ./api/chat - but you can point it elsewhere
-    // api: './api/chat'
+    api: '/api/chat_no_streaming'
   })
+
 
   return (
     <div className='flex flex-col w-full space-y-4 max-w-2xl'>
@@ -26,6 +27,9 @@ export default function BasicChat() {
             <div className='px-8 text-gray-900 font-semibold'>
               {m.content}
             </div>
+            {isLoading && (
+              <div className='text-2x text-gray-500 my-4'>Loading...</div>
+            )}
           </div>
         ))
         : null}
