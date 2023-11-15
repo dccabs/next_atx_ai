@@ -10,7 +10,7 @@ const Links = [
     href: '/langchain_retrieval',
     label: 'Langchain / Supabase Retrieval Vector DB'
   },
-  { href: '/chat', label: 'Serp (Search Engine API) Example' }
+  { href: '/langchain_serp', label: 'Serp (Search Engine API) Example' }
 ]
 
 const ResourceLinks = [

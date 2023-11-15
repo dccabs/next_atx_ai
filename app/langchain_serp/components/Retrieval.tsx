@@ -15,7 +15,7 @@ export default function OpenAIChat() {
     setUserMessage(inputText)
     e.preventDefault()
     try {
-      fetch('/api/langchain_retrieval', {
+      fetch('/api/langchain_serp', {
         method: 'POST',
         body: JSON.stringify({ inputText: inputText })
       })
@@ -50,12 +50,12 @@ export default function OpenAIChat() {
             <div className='px-8 text-gray-900 font-semibold'>
               {(loading && !data) && (
                 <div>
-                  Looking for your answer in the database...
+                  Looking for your answer on the internet...
                 </div>
               )}
               {(!loading && data) && (
                 <div>
-                  {data?.message?.output}
+                  {data?.message}
                 </div>
               )}
             </div>
@@ -68,7 +68,7 @@ export default function OpenAIChat() {
             htmlFor='comment'
             className='block text-sm font-medium leading-6 text-gray-900'
           >
-            Ask a question about your uploaded data
+            Ask a question that will be searched on the internet.
           </label>
           <div className='mt-2'>
             <input
