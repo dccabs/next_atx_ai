@@ -8,7 +8,7 @@ import { SupabaseVectorStore } from 'langchain/vectorstores/supabase'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
+  apiKey: process.env.OPENAI_API_KEY || '',
 })
 
 // IMPORTANT! Set the runtime to edge
@@ -22,18 +22,18 @@ export async function POST(req: Request) {
 
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
-    chunkOverlap: 100
+    chunkOverlap: 100,
   })
 
   const docOutput = await splitter.splitDocuments([
-    new Document({ pageContent: inputText })
+    new Document({ pageContent: inputText }),
   ])
 
   const embeddings = new OpenAIEmbeddings()
 
   const store = new SupabaseVectorStore(embeddings, {
     client: supabase,
-    tableName: 'nextatx_documents'
+    tableName: 'nextatx_documents',
   })
 
   // const docs = [

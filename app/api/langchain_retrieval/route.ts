@@ -6,9 +6,8 @@ import { ChatOpenAI } from 'langchain/chat_models/openai'
 import {
   VectorStoreToolkit,
   createVectorStoreAgent,
-  VectorStoreInfo
+  VectorStoreInfo,
 } from 'langchain/agents'
-
 
 export async function POST(req: Request) {
   const { inputText } = await req.json()
@@ -20,14 +19,14 @@ export async function POST(req: Request) {
     {
       client: supabase,
       tableName: 'nextatx_documents',
-      queryName: 'match_nextatx_documents'
-    }
+      queryName: 'match_nextatx_documents',
+    },
   )
 
   const vectorStoreInfo: VectorStoreInfo = {
     name: 'nfl_recaps',
     description: 'The most recent NFL recaps from the 2023 season',
-    vectorStore
+    vectorStore,
   }
 
   const model = new ChatOpenAI()
@@ -35,14 +34,17 @@ export async function POST(req: Request) {
   const toolkit = new VectorStoreToolkit(vectorStoreInfo, model)
   const agent = createVectorStoreAgent(model, toolkit)
 
-  const input =
-    inputText
+  const input = inputText
   console.log(`Executing: ${input}`)
 
   const result = await agent.call({ input })
   console.log(`Got output ${result.output}`)
   console.log(
-    `Got intermediate steps ${JSON.stringify(result.intermediateSteps, null, 2)}`
+    `Got intermediate steps ${JSON.stringify(
+      result.intermediateSteps,
+      null,
+      2,
+    )}`,
   )
 
   return new Response(JSON.stringify({ message: result }), { status: 200 })

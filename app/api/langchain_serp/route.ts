@@ -4,13 +4,12 @@ import { StringOutputParser } from 'langchain/schema/output_parser'
 
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 
-
 export async function POST(req: Request) {
   const { inputText } = await req.json()
 
   const llm = new ChatOpenAI({
     streaming: true,
-    modelName: 'gpt-4-1106-preview'
+    modelName: 'gpt-4-1106-preview',
   })
 
   const search = new SerpAPI()
@@ -24,7 +23,7 @@ export async function POST(req: Request) {
   const chain = prompt.pipe(model).pipe(new StringOutputParser()).pipe(search)
 
   const result = await chain.invoke({
-    input: inputText
+    input: inputText,
   })
 
   return new Response(JSON.stringify({ message: result }), { status: 200 })

@@ -14,7 +14,7 @@ export default function Page() {
       current: true,
       onClick: () => {
         handleTabSelect('instructions')
-      }
+      },
     },
     {
       id: 'search',
@@ -22,8 +22,8 @@ export default function Page() {
       current: false,
       onClick: () => {
         handleTabSelect('search')
-      }
-    }
+      },
+    },
   ])
 
   const handleTabSelect = (id) => {
@@ -38,19 +38,22 @@ export default function Page() {
   const activeTab = tabs.find((tab) => tab.current)
 
   return (
-    <div className='bg-white py-24 sm:py-32'>
-      <div className='mx-auto max-w-7xl px-6 lg:px-8 space-y-8'>
-        <div className='max-w-7xl'>
-          <div className='mb-8'>
-            <Link className='' href={`/`}><HomeIcon className='h-12 w-12 cursor-pointer' /></Link>
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-8">
+        <div className="max-w-7xl">
+          <div className="mb-8">
+            <Link className="" href={`/`}>
+              <HomeIcon className="h-12 w-12 cursor-pointer" />
+            </Link>
           </div>
-          <div className='mx-auto lg:mx-0 space-y-4'>
-            <h2 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
+          <div className="mx-auto lg:mx-0 space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Langchain Serp Example
             </h2>
-            <div className='space-y-4'>
+            <div className="space-y-4">
               <p>
-                In this example we use langchain to use the search engine api to find results (Serp).
+                In this example we use langchain to use the search engine api to
+                find results (Serp).
               </p>
             </div>
           </div>
@@ -58,11 +61,9 @@ export default function Page() {
         <Tabs tabs={tabs} />
         {activeTab.id === 'instructions' && (
           <>
-            <div className='max-w-7xl'>
-              <div className='space-y-4'>
-                <p>
-                  This one is under development. Use at your own risk.
-                </p>
+            <div className="max-w-7xl">
+              <div className="space-y-4">
+                <p>This one is under development. Use at your own risk.</p>
               </div>
             </div>
           </>

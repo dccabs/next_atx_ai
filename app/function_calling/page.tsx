@@ -16,7 +16,7 @@ export default function Page() {
       current: true,
       onClick: () => {
         handleTabSelect('instructions')
-      }
+      },
     },
     {
       id: 'open-ai-demo',
@@ -24,8 +24,8 @@ export default function Page() {
       current: false,
       onClick: () => {
         handleTabSelect('open-ai-demo')
-      }
-    }
+      },
+    },
   ])
 
   const handleTabSelect = (id) => {
@@ -44,7 +44,7 @@ export default function Page() {
     try {
       fetch('/api/function_calling', {
         method: 'POST',
-        body: JSON.stringify({ inputText: inputText })
+        body: JSON.stringify({ inputText: inputText }),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -60,17 +60,19 @@ export default function Page() {
   const activeTab = tabs.find((tab) => tab.current)
 
   return (
-    <div className='bg-white py-24 sm:py-32'>
-      <div className='mx-auto max-w-7xl px-6 lg:px-8 space-y-8'>
-        <div className='max-w-7xl'>
-          <div className='mb-8'>
-            <Link className='' href={`/`}><HomeIcon className='h-12 w-12 cursor-pointer' /></Link>
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-8">
+        <div className="max-w-7xl">
+          <div className="mb-8">
+            <Link className="" href={`/`}>
+              <HomeIcon className="h-12 w-12 cursor-pointer" />
+            </Link>
           </div>
-          <div className='mx-auto lg:mx-0 space-y-4'>
-            <h2 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
+          <div className="mx-auto lg:mx-0 space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Open AI functions Example
             </h2>
-            <div className='space-y-4'>
+            <div className="space-y-4">
               <p>
                 Open AI functions allow you to take a block of text and return
                 json data
@@ -102,9 +104,9 @@ export default function Page() {
               JSON format.
             </p>
             <p>How it works</p>
-            <div className='prose prose-slate max-w-7xl'>
+            <div className="prose prose-slate max-w-7xl">
               <pre>
-                <code className='language-js'>
+                <code className="language-js">
                   {`
 // Define your function schema
 const game_parser = {
@@ -156,8 +158,8 @@ const game_parser = {
           </>
         )}
         {activeTab.id === 'open-ai-demo' && (
-          <div className='space-y-16'>
-            <p className='text-gray-600'>
+          <div className="space-y-16">
+            <p className="text-gray-600">
               To test out the form below. Paste in a recap of an NFL game. The
               open AI function will parse the results into valid JSON that you
               can use to update a DB, call another function, or any task where
@@ -166,35 +168,35 @@ const game_parser = {
             <p>
               You can find some NFL game recaps here.{' '}
               <Link
-                className='text-cyan-600 underline cursor-pointer'
-                target='_blank'
-                href='https://walterfootball.com/nflreview.php'
+                className="text-cyan-600 underline cursor-pointer"
+                target="_blank"
+                href="https://walterfootball.com/nflreview.php"
               >
                 Link to recaps
               </Link>
             </p>
             <div>
               <label
-                htmlFor='comment'
-                className='block text-sm font-medium leading-6 text-gray-900'
+                htmlFor="comment"
+                className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Paste your NFL recap here
               </label>
-              <div className='mt-2'>
+              <div className="mt-2">
                 <textarea
                   rows={16}
-                  name='comment'
-                  id='comment'
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                  name="comment"
+                  id="comment"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                 />
               </div>
-              <div className='mt-4'>
+              <div className="mt-4">
                 <button
                   onClick={handleSubmit}
-                  type='button'
-                  className='rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                  type="button"
+                  className="rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Submit text
                 </button>
@@ -203,9 +205,9 @@ const game_parser = {
             <div>
               {loading && <div>Loading...</div>}
               {!loading && init && (
-                <div className='prose prose-slate max-w-7xl'>
+                <div className="prose prose-slate max-w-7xl">
                   <pre>
-                    <code className='language-js'>
+                    <code className="language-js">
                       {
                         data?.apiResponse?.choices[0]?.message?.function_call
                           ?.arguments

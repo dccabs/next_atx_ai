@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   const llm = new ChatOpenAI({
     streaming: true,
-    modelName: 'gpt-4-1106-preview'
+    modelName: 'gpt-4-1106-preview',
   })
 
   llm
@@ -19,10 +19,10 @@ export async function POST(req: Request) {
       (messages as Message[]).map((m) =>
         m.role == 'user'
           ? new HumanMessage(m.content)
-          : new AIMessage(m.content)
+          : new AIMessage(m.content),
       ),
       {},
-      [handlers]
+      [handlers],
     )
     .catch(console.error)
 

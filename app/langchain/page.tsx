@@ -17,7 +17,7 @@ export default function Chat() {
       current: true,
       onClick: () => {
         handleTabSelect('instructions')
-      }
+      },
     },
     {
       id: 'open-ai-demo',
@@ -25,7 +25,7 @@ export default function Chat() {
       current: false,
       onClick: () => {
         handleTabSelect('open-ai-demo')
-      }
+      },
     },
     {
       id: 'anthropic-demo',
@@ -33,7 +33,7 @@ export default function Chat() {
       current: false,
       onClick: () => {
         handleTabSelect('anthropic-demo')
-      }
+      },
     },
     {
       id: 'replicate-demo',
@@ -41,8 +41,8 @@ export default function Chat() {
       current: false,
       onClick: () => {
         handleTabSelect('replicate-demo')
-      }
-    }
+      },
+    },
   ])
 
   const handleTabSelect = (id) => {
@@ -57,17 +57,19 @@ export default function Chat() {
   const activeTab = tabs.find((tab) => tab.current)
 
   return (
-    <div className='bg-white py-24 sm:py-32'>
-      <div className='mx-auto max-w-7xl px-6 lg:px-8 space-y-8'>
-        <div className='max-w-7xl'>
-          <div className='mb-8'>
-            <Link className='' href={`/`}><HomeIcon className='h-12 w-12 cursor-pointer' /></Link>
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-8">
+        <div className="max-w-7xl">
+          <div className="mb-8">
+            <Link className="" href={`/`}>
+              <HomeIcon className="h-12 w-12 cursor-pointer" />
+            </Link>
           </div>
-          <div className='mx-auto lg:mx-0 space-y-4'>
-            <h2 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
+          <div className="mx-auto lg:mx-0 space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Langchain Chat Examples
             </h2>
-            <div className='space-y-4'>
+            <div className="space-y-4">
               <p>
                 Langchain is a software library designed to facilitate the
                 creation of applications that utilize large language models
@@ -80,8 +82,8 @@ export default function Chat() {
         <Tabs tabs={tabs} />
         {activeTab.id === 'instructions' && (
           <>
-            <div className='max-w-7xl'>
-              <div className='space-y-4'>
+            <div className="max-w-7xl">
+              <div className="space-y-4">
                 <p>
                   We can continue to use the useChat hook provided by the Vercel
                   AI SDK to create a chat component that
@@ -97,13 +99,13 @@ export default function Chat() {
                   Open AI's GPT-4 for everything. You might be able to use a
                   cheaper model like GPT 3.5, Anthropic, or Replicate
                 </p>
-                <div className='space-y-8 py-8'>
+                <div className="space-y-8 py-8">
                   <div>
-                    <h5 className='text-bold text-2xl'>Open AI Example</h5>
-                    <div className='max-w-7xl'>
-                      <div className='prose prose-slate max-w-7xl'>
+                    <h5 className="text-bold text-2xl">Open AI Example</h5>
+                    <div className="max-w-7xl">
+                      <div className="prose prose-slate max-w-7xl">
                         <pre>
-                          <code className='language-js'>
+                          <code className="language-js">
                             {`
 import { StreamingTextResponse, LangChainStream, Message } from 'ai'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
@@ -141,13 +143,13 @@ export async function POST(req: Request) {
                       </div>
                     </div>
                     <div>
-                      <h5 className='text-bold text-2xl mt-8 block'>
+                      <h5 className="text-bold text-2xl mt-8 block">
                         Anthropic with AWS Bedrock Example
                       </h5>
-                      <div className='max-w-7xl'>
-                        <div className='prose prose-slate max-w-7xl'>
+                      <div className="max-w-7xl">
+                        <div className="prose prose-slate max-w-7xl">
                           <pre>
-                            <code className='language-js'>
+                            <code className="language-js">
                               {`
 import { StreamingTextResponse, LangChainStream, Message } from 'ai'
 import { BedrockChat } from 'langchain/chat_models/bedrock'
@@ -194,13 +196,13 @@ export async function POST(req: Request) {
                     </div>
 
                     <div>
-                      <h5 className='text-bold text-2xl mt-8 block'>
+                      <h5 className="text-bold text-2xl mt-8 block">
                         Replicate Example
                       </h5>
-                      <div className='max-w-7xl'>
-                        <div className='prose prose-slate max-w-7xl'>
+                      <div className="max-w-7xl">
+                        <div className="prose prose-slate max-w-7xl">
                           <pre>
-                            <code className='language-js'>
+                            <code className="language-js">
                               {`
 import { StreamingTextResponse, LangChainStream, Message } from 'ai'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
