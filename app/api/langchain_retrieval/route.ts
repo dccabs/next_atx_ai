@@ -1,37 +1,21 @@
-import OpenAI from 'openai'
-
-import { StreamingTextResponse, LangChainStream, Message } from 'ai'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { SupabaseVectorStore } from 'langchain/vectorstores/supabase'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
-import { BufferMemory } from 'langchain/memory'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { RetrievalQAChain } from 'langchain/chains'
 import {
   VectorStoreToolkit,
   createVectorStoreAgent,
   VectorStoreInfo
 } from 'langchain/agents'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
-})
-
-// IMPORTANT! Set the runtime to edge
-export const runtime = 'edge'
 
 export async function POST(req: Request) {
   const { inputText } = await req.json()
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
-  const { stream, handlers } = LangChainStream()
-
-  // const client = createClient(url, privateKey);
 
   const vectorStore = await SupabaseVectorStore.fromExistingIndex(
-    // ['Hello world', 'Bye bye', 'What\'s this?'],
-    // [{ id: 2 }, { id: 1 }, { id: 3 }],
     new OpenAIEmbeddings(),
     {
       client: supabase,
@@ -39,8 +23,6 @@ export async function POST(req: Request) {
       queryName: 'match_nextatx_documents'
     }
   )
-
-  const resultOne = await vectorStore.similaritySearch('Dak Prescott', 10)
 
   const vectorStoreInfo: VectorStoreInfo = {
     name: 'nfl_recaps',
@@ -54,7 +36,7 @@ export async function POST(req: Request) {
   const agent = createVectorStoreAgent(model, toolkit)
 
   const input =
-    'What was the most lopsided score in these games?'
+    inputText
   console.log(`Executing: ${input}`)
 
   const result = await agent.call({ input })
@@ -63,8 +45,5 @@ export async function POST(req: Request) {
     `Got intermediate steps ${JSON.stringify(result.intermediateSteps, null, 2)}`
   )
 
-  // console.log('result', result)
-  // const { data } = await supabase.from('jobs').select()
-
-  return new Response(JSON.stringify(result), { status: 200 })
+  return new Response(JSON.stringify({ message: result }), { status: 200 })
 }

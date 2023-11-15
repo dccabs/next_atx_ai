@@ -4,15 +4,17 @@ import OpenAIChat from './components/OpenAIChat'
 import AnthropicChat from './components/AnthropicChat'
 import ReplicateChat from './components/ReplicateChat'
 import Upload from './components/Upload'
+import Retrieval from './components/Retrieval'
 import Tabs from '@/app/components/ui/Tabs'
 import Link from 'next/link'
+import { HomeIcon } from '@heroicons/react/20/solid'
 
 export default function Chat() {
   const [tabs, setTabs] = useState([
     {
       id: 'instructions',
       name: 'Instructions',
-      current: false,
+      current: true,
       onClick: () => {
         handleTabSelect('instructions')
       }
@@ -36,17 +38,9 @@ export default function Chat() {
     {
       id: 'replicate-demo',
       name: 'Replicate Demo',
-      current: true,
-      onClick: () => {
-        handleTabSelect('replicate-demo')
-      }
-    },
-    {
-      id: 'upload',
-      name: 'Upload to vector DB',
       current: false,
       onClick: () => {
-        handleTabSelect('upload')
+        handleTabSelect('replicate-demo')
       }
     }
   ])
@@ -66,9 +60,12 @@ export default function Chat() {
     <div className='bg-white py-24 sm:py-32'>
       <div className='mx-auto max-w-7xl px-6 lg:px-8 space-y-8'>
         <div className='max-w-7xl'>
+          <div className='mb-8'>
+            <Link className='' href={`/`}><HomeIcon className='h-12 w-12 cursor-pointer' /></Link>
+          </div>
           <div className='mx-auto lg:mx-0 space-y-4'>
             <h2 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
-              Langchain Examples
+              Langchain Chat Examples
             </h2>
             <div className='space-y-4'>
               <p>
@@ -254,8 +251,6 @@ export async function POST(req: Request) {
         {activeTab.id === 'open-ai-demo' && <OpenAIChat />}
         {activeTab.id === 'anthropic-demo' && <AnthropicChat />}
         {activeTab.id === 'replicate-demo' && <ReplicateChat />}
-        {activeTab.id === 'upload' && <Upload />}
-
       </div>
     </div>
   )
