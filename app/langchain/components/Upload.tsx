@@ -6,14 +6,14 @@ export default function OpenAIChat() {
   const [inputText, setInputText] = useState<string>('')
   const [init, setInit] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState<any>({})
+  const [data, setData] = useState<any>(null)
 
   const handleSubmit = async (e) => {
     setInit(true)
     setLoading(true)
     e.preventDefault()
     try {
-      fetch('/api/langchain_retrieval', {
+      fetch('/api/langchain_upload', {
         method: 'POST',
         body: JSON.stringify({ inputText: inputText })
       })
@@ -30,14 +30,25 @@ export default function OpenAIChat() {
 
   return (
     <div className=''>
-      <div>
-        <label
-          htmlFor='comment'
-          className='block text-sm font-medium leading-6 text-gray-900'
-        >
-          Paste your NFL recap here
-        </label>
-        <div className='mt-2'>
+      {loading && (
+        <div className='flex items-center justify-center'>
+          Loading data...
+        </div>
+      )}
+      {!loading && data && (
+        <div className='flex items-center justify-center'>
+          Data successfully uploaded!
+        </div>
+      )}
+      {!loading && !data && (
+        <div>
+          <label
+            htmlFor='comment'
+            className='block text-sm font-medium leading-6 text-gray-900'
+          >
+            Paste your NFL recap here
+          </label>
+          <div className='mt-2'>
           <textarea
             rows={16}
             name='comment'
@@ -46,17 +57,18 @@ export default function OpenAIChat() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
+          </div>
+          <div className='mt-4'>
+            <button
+              onClick={handleSubmit}
+              type='button'
+              className='rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+            >
+              Submit text
+            </button>
+          </div>
         </div>
-        <div className='mt-4'>
-          <button
-            onClick={handleSubmit}
-            type='button'
-            className='rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-          >
-            Submit text
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import OpenAI from 'openai'
 
+import { StreamingTextResponse, LangChainStream, Message } from 'ai'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { SupabaseVectorStore } from 'langchain/vectorstores/supabase'
@@ -24,6 +25,7 @@ export async function POST(req: Request) {
   const { inputText } = await req.json()
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
+  const { stream, handlers } = LangChainStream()
 
   // const client = createClient(url, privateKey);
 
@@ -61,9 +63,8 @@ export async function POST(req: Request) {
     `Got intermediate steps ${JSON.stringify(result.intermediateSteps, null, 2)}`
   )
 
-  console.log(resultOne)
   // console.log('result', result)
   // const { data } = await supabase.from('jobs').select()
 
-  return new Response(JSON.stringify(resultOne), { status: 200 })
+  return new Response(JSON.stringify(result), { status: 200 })
 }
