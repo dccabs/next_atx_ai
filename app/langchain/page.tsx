@@ -3,6 +3,7 @@ import { useState } from 'react'
 import OpenAIChat from './components/OpenAIChat'
 import AnthropicChat from './components/AnthropicChat'
 import ReplicateChat from './components/ReplicateChat'
+import Upload from './components/Upload'
 import Tabs from '@/app/components/ui/Tabs'
 import Link from 'next/link'
 
@@ -38,6 +39,14 @@ export default function Chat() {
       current: true,
       onClick: () => {
         handleTabSelect('replicate-demo')
+      }
+    },
+    {
+      id: 'upload',
+      name: 'Upload to vector DB',
+      current: false,
+      onClick: () => {
+        handleTabSelect('upload')
       }
     }
   ])
@@ -245,6 +254,8 @@ export async function POST(req: Request) {
         {activeTab.id === 'open-ai-demo' && <OpenAIChat />}
         {activeTab.id === 'anthropic-demo' && <AnthropicChat />}
         {activeTab.id === 'replicate-demo' && <ReplicateChat />}
+        {activeTab.id === 'upload' && <Upload />}
+
       </div>
     </div>
   )

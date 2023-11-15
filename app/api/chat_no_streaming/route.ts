@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import { NextResponse } from 'next/server'
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
+  apiKey: process.env.OPENAI_API_KEY || '',
 })
 
 // IMPORTANT! Set the runtime to edge
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   // Ask OpenAI for a streaming chat completion given the prompt
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
-    messages: messages
+    messages: messages,
   })
 
   const message = response?.choices[0].message?.content
